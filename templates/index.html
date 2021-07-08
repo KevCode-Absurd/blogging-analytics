@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" type="image/gif" sizes="32x32">
+    
+    <title>Blog Analytics</title>
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="row mb-5">
+        <div class="col text-center">
+          <h1>Blog Analytics</h1>
+        </div>
+      </div>
+
+      <div class="row align-items-center justify-content-center mb-5">
+        <div class="col text-center">
+          <p class="lrg-heading">
+            {{ stats['num_articles'] }}
+          </p>
+          <p class="description">
+            Total Article Count
+          </p>
+        </div>
+        <div class="col text-center">
+          <p class="lrg-heading">
+            {{ stats['reading_time'] }}
+          </p>
+          <p class="description">
+            Average Reading Time (mins)
+          </p>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col text-center">
+          <p class="description">
+            Top Categories
+          </p>
+          {% for category in categories[:10] %}
+            <p>
+              {{ category[0] | capitalize }} - {{ category[1] }}
+            </p>
+          {% endfor %}
+        </div>
+        <div class="col text-center">
+          <p class="description">
+            Top Authors
+          </p>
+          {% for author in authors[:10] %}
+            <p>
+              {{ author[0] }} - {{ author[1] }}
+            </p>
+          {% endfor %}
+        </div>
+      </div><br><br>
+
+      <div class="row mt-3 mb-5">
+        <div class="col text-center">
+          <p class="description">
+            <strong>Weekday Frequency</strong>
+          </p>
+          <canvas id="weekdayChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script>
+      var ctx = document.getElementById("weekdayChart").getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              datasets: [{
+                  data: [{{ weekdays['Monday'] }}, {{ weekdays['Tuesday'] }}, {{ weekdays['Wednesday'] }}, {{ weekdays['Thursday'] }}, {{ weekdays['Friday'] }}],
+                  backgroundColor: "#FF6F59",
+              }]
+          },
+          options: {
+              legend: {
+                display: false
+              },
+              scales: {
+                  xAxes: [{
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
+                      }
+                  }],
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
+                      }
+                  }]
+              }
+          }
+      });
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,19 @@
+body {
+  font-family: "DM Sans", sans-serif;
+  background-color: rgb(255, 255, 246);
+  margin-top: 50px;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.lrg-heading {
+  font-weight: bold;
+  font-size: 48px;
+}
+
+.description {
+  font-size: 24px;
+  color: rgb(46, 45, 45);
+}
